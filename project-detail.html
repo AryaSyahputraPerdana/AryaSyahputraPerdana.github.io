@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Riset - Identifikasi Tanda Tangan AI</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* CSS tambahan khusus untuk halaman detail agar teks artikel lebih nyaman dibaca */
+        .article-content p {
+            font-size: 1.05rem;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            line-height: 1.8;
+            text-align: justify;
+        }
+        .article-content h3 {
+            margin-top: 40px;
+            margin-bottom: 15px;
+            color: var(--text-main);
+            font-size: 1.5rem;
+        }
+        .article-content ul {
+            list-style: disc;
+            margin-left: 20px;
+            margin-bottom: 20px;
+            color: var(--text-muted);
+        }
+        .article-content li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR (Dengan tombol kembali) -->
+    <header class="navbar fade-in reveal">
+        <div class="logo">My<span class="highlight">Story</span>.</div>
+        <nav>
+            <ul>
+                <li><a href="index.html">&larr; Kembali ke Portofolio</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- HERO SECTION KHUSUS DETAIL PROJECT -->
+    <section class="section-padding bg-darker reveal" style="text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05);">
+        <div class="container fade-in-up">
+            <span class="tag tag-highlight" style="margin: 0 auto 20px; display: inline-block;">Undergraduate Thesis (Skripsi)</span>
+            <h1 style="font-size: 2.5rem; margin-bottom: 20px; max-width: 900px; margin-left: auto; margin-right: auto; line-height: 1.3;">
+                <span class="gradient-text">Identifikasi Keaslian Tanda Tangan Menggunakan Metode YOLOv11 dengan Grad-CAM</span>
+            </h1>
+            <p style="color: var(--text-muted); max-width: 700px; margin: 0 auto; font-size: 1.1rem;">
+                Membongkar "kotak hitam" AI dalam keamanan biometrik menggunakan metode Explainable AI (XAI) untuk interpretasi model yang lebih transparan.
+            </p>
+        </div>
+    </section>
+
+    <!-- MAIN CONTENT -->
+    <main class="container section-padding reveal">
+        <div class="grid-2" style="align-items: start;">
+            
+            <!-- KOLOM KIRI: Teks Penjelasan -->
+            <div class="fade-in-up delay-1 article-content">
+                <h2 class="category-title">Latar Belakang Riset</h2>
+                <p>
+                    Tanda tangan masih menjadi salah satu metode utama dalam verifikasi dokumen legal dan perbankan. Namun, pemalsuan tanda tangan semakin canggih. Meskipun model Deep Learning modern memiliki tingkat akurasi yang tinggi dalam mendeteksi objek, mereka seringkali bertindak seperti "kotak hitam" (<em>black box</em>)—sulit untuk mengetahui mengapa model memutuskan sebuah tanda tangan itu asli atau palsu.
+                </p>
+                <p>
+                    Riset ini mengusulkan sebuah sistem yang tidak hanya menggunakan <strong>YOLOv11</strong> untuk mendeteksi dan mengklasifikasikan tanda tangan, tetapi juga menggunakan <strong>Grad-CAM (Gradient-weighted Class Activation Mapping)</strong>. Tujuannya adalah untuk memvisualisasikan area mana dari guratan tanda tangan yang menjadi fokus utama model saat melakukan prediksi.
+                </p>
+
+                <h3 style="border-left: 3px solid var(--primary); padding-left: 15px;">Metodologi yang Digunakan</h3>
+                <ul>
+                    <li><strong>Arsitektur Model:</strong> YOLOv11 untuk ekstraksi fitur dan klasifikasi cepat (Real-time object detection). Layer spesifik (seperti layer 8 / C3k2) dapat dianalisis untuk melihat representasi fiturnya.</li>
+                    <li><strong>Explainable AI (XAI):</strong> Implementasi Grad-CAM untuk menghasilkan <em>heatmap</em> visual yang menyoroti area keputusan model.</li>
+                    <li><strong>Pemrosesan Dataset:</strong> Anotasi dan augmentasi citra tanda tangan asli dan palsu (<em>forgeries</em>).</li>
+                </ul>
+
+                <h3 style="border-left: 3px solid var(--secondary); padding-left: 15px;">Teknologi Utama</h3>
+                <div class="tech-stack" style="margin-top: 15px; margin-bottom: 30px;">
+                    <span class="pill-blue" style="font-size: 0.9rem; padding: 6px 15px;">Python</span>
+                    <span class="pill-green" style="font-size: 0.9rem; padding: 6px 15px;">YOLOv11</span>
+                    <span class="pill-purple" style="font-size: 0.9rem; padding: 6px 15px;">PyTorch</span>
+                    <span class="pill-orange" style="font-size: 0.9rem; padding: 6px 15px;">Grad-CAM / XAI</span>
+                </div>
+            </div>
+
+            <!-- KOLOM KANAN: Visualisasi & Hasil -->
+            <div class="fade-in-up delay-2">
+                <!-- Kartu Hasil Visualisasi -->
+                <div class="card" style="margin-bottom: 30px;">
+                    <div class="card-image" style="width: 100%; border-radius: 16px 16px 0 0; min-height: auto;">
+                        <!-- Ganti dengan path gambar Grad-CAM kamu yang sesungguhnya -->
+                        <img src="/Users/mac/Downloads/Portofolio/Gradcam.png" alt="Hasil Grad-CAM" style="width: 100%; height: auto; display: block;">
+                    </div>
+                    <div class="card-body">
+                        <h3 style="color: var(--secondary);">Interpretasi Visual (Heatmap)</h3>
+                        <p style="font-size: 0.95rem;">
+                            Warna merah/kuning pada area tanda tangan menunjukkan fitur dominan yang diperhatikan oleh YOLOv11 saat menentukan bahwa tanda tangan tersebut asli atau palsu. Hal ini membuktikan bahwa model tidak hanya menebak, melainkan mengenali pola tarikan garis spesifik.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Kartu Kesimpulan -->
+                <div class="card" style="border-color: var(--primary);">
+                    <div class="card-body">
+                        <h3>💡 Hasil Akhir (Kesimpulan)</h3>
+                        <p style="font-size: 0.95rem; margin-bottom: 0;">
+                            Penggunaan YOLOv11 dipadukan dengan Grad-CAM berhasil memberikan tingkat akurasi yang solid sekaligus transparansi keputusan. Sistem ini sangat potensial untuk diadopsi oleh institusi finansial guna mencegah penipuan dokumen dengan analisis berlapis yang dapat diaudit secara visual oleh manusia.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Ingin berkolaborasi atau diskusi tentang riset ini?</p>
+            <a href="https://wa.me/6281215685675" target="_blank" rel="noopener noreferrer" class="footer-link">Hubungi Saya</a>
+            <br><br>
+            <small>&copy; 2026 Personal Portfolio. Built with Code & Research.</small>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

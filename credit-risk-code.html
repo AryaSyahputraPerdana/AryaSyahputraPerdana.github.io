@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Source Code - Credit Risk Analysis</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        /* CSS Khusus untuk Tampilan Kode & Output */
+        .code-section { margin-bottom: 60px; }
+        .code-section h3 { margin-bottom: 10px; color: var(--secondary); font-size: 1.3rem; display: flex; align-items: center; gap: 10px; }
+        .code-desc { color: var(--text-muted); margin-bottom: 20px; font-size: 0.95rem; }
+        
+        .code-block {
+            background-color: #1e293b;
+            border-radius: 10px 10px 0 0;
+            padding: 25px;
+            overflow-x: auto;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-bottom: none;
+        }
+        
+        .output-block {
+            background-color: #090b10;
+            border-radius: 0 0 10px 10px;
+            padding: 25px;
+            overflow-x: auto;
+            border: 1px solid rgba(255,255,255,0.1);
+            border-top: 1px dashed rgba(255,255,255,0.2);
+            border-left: 4px solid var(--primary);
+        }
+
+        pre { margin: 0; font-family: 'Fira Code', monospace; font-size: 0.9rem; line-height: 1.6; }
+        code { font-family: inherit; }
+        
+        /* Pewarnaan Syntax */
+        .keyword { color: #c678dd; } 
+        .function { color: #61afef; } 
+        .string { color: #98c379; } 
+        .comment { color: #7f848e; font-style: italic; } 
+        .method { color: #e5c07b; }
+        .variable { color: #e06c75; }
+        .output-text { color: #abb2bf; } 
+        .output-highlight { color: #98c379; font-weight: bold; }
+
+        /* Tombol Colab */
+        .btn-colab {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #f9ab00, #e65100);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            margin-top: 20px;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(230, 81, 0, 0.4);
+        }
+        .btn-colab:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(230, 81, 0, 0.6);
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+    <header class="navbar fade-in reveal">
+        <div class="logo">My<span class="highlight">Story</span>.</div>
+        <nav>
+            <ul>
+                <li><a href="credit-risk-detail.html">&larr; Kembali ke Detail Proyek</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="section-padding bg-darker reveal" style="text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05);">
+        <div class="container fade-in-up">
+            <h1 style="font-size: 2.5rem; margin-bottom: 10px;">
+                <span class="gradient-text">Source Code & Implementation</span>
+            </h1>
+            <p style="color: var(--text-muted); max-width: 800px; margin: 0 auto; font-size: 1.1rem; margin-bottom: 20px;">
+                Berikut adalah cuplikan kode utama (Highlight) dari proyek Analisis Risiko Kredit. Ingin melihat keseluruhan data, visualisasi, dan logika programnya secara interaktif?
+            </p>
+            <a href="https://colab.research.google.com/drive/1jt9nJ4Y6z5qklBGFWO9bXK5kYO_zMzIw?usp=sharing" target="_blank" rel="noopener noreferrer" class="btn-colab">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12.0001 2.5C12.0001 2.5 5.5001 10 5.5001 14.5C5.5001 18.0899 8.4102 21 12.0001 21C15.59 21 18.5001 18.0899 18.5001 14.5C18.5001 10 12.0001 2.5 12.0001 2.5Z" fill="currentColor"/>
+                </svg>
+                Buka Full Code di Google Colab
+            </a>
+        </div>
+    </section>
+
+    <main class="container section-padding reveal">
+        
+        <div class="code-section fade-in-up delay-1">
+            <h3>📊 1. Exploratory Data Analysis (EDA)</h3>
+            <p class="code-desc">Membaca dataset berukuran besar (466k+ baris) dan memvisualisasikan korelasi antar fitur numerik menggunakan fungsi heatmap dari library Seaborn.</p>
+            
+            <div class="code-block">
+<pre><code><span class="keyword">import</span> pandas <span class="keyword">as</span> pd
+<span class="keyword">import</span> matplotlib.pyplot <span class="keyword">as</span> plt
+<span class="keyword">import</span> seaborn <span class="keyword">as</span> sns
+
+<span class="comment"># Load dataset</span>
+file_path = <span class="string">"loan_data_2007_2014.csv"</span>
+df = pd.read_csv(file_path)
+
+<span class="comment"># Cek korelasi antar fitur numerik</span>
+numeric_df = df.select_dtypes(include=[<span class="string">'number'</span>])
+plt.figure(figsize=(<span class="string">10</span>, <span class="string">8</span>))
+sns.heatmap(numeric_df.corr(), cmap=<span class="string">'coolwarm'</span>, annot=<span class="keyword">False</span>, linewidths=<span class="string">0.5</span>)
+
+plt.title(<span class="string">"Heatmap Korelasi Antar Fitur Numerik"</span>)
+plt.show()</code></pre>
+            </div>
+        </div>
+
+        <div class="code-section fade-in-up">
+            <h3>🧹 2. Data Cleaning & Pre-processing</h3>
+            <p class="code-desc">Menangani nilai kosong (Missing Values) menggunakan median untuk angka dan modus untuk teks.</p>
+            
+            <div class="code-block">
+<pre><code><span class="comment"># Isi kolom numerik dengan median</span>
+num_cols = df.select_dtypes(include=[<span class="string">'float64'</span>, <span class="string">'int64'</span>]).columns
+df[num_cols] = df[num_cols].apply(<span class="keyword">lambda</span> x: x.fillna(x.median()))
+
+<span class="comment"># Isi kolom kategorikal dengan modus (nilai yang paling sering muncul)</span>
+cat_cols = df.select_dtypes(include=[<span class="string">'object'</span>]).columns
+df[cat_cols] = df[cat_cols].apply(<span class="keyword">lambda</span> x: x.fillna(x.mode()[<span class="string">0</span>]))
+
+<span class="function">print</span>(<span class="string">"\nMissing values setelah handling:"</span>)
+<span class="function">print</span>(df.isnull().sum())</code></pre>
+            </div>
+            <div class="output-block">
+<pre class="output-text"><code>Missing values setelah handling:
+loan_amnt              0
+funded_amnt_inv        0
+int_rate               0
+installment            0
+annual_inc             0
+...
+application_type       0
+loan_status            0
+dtype: int64</code></pre>
+            </div>
+        </div>
+
+        <div class="code-section fade-in-up">
+            <h3>⚙️ 3. Feature Encoding & Standard Scaling</h3>
+            <p class="code-desc">Mengubah data teks menjadi angka (Label Encoding) dan menormalisasi rentang nilai numerik. Objek <em>scaler</em> dan <em>encoder</em> disimpan (joblib) untuk kebutuhan inferensi selanjutnya.</p>
+            
+            <div class="code-block">
+<pre><code><span class="keyword">from</span> sklearn.preprocessing <span class="keyword">import</span> StandardScaler, LabelEncoder
+<span class="keyword">import</span> joblib
+
+<span class="comment"># Proses Label encoding</span>
+label_encoders = {} 
+<span class="keyword">for</span> col <span class="keyword">in</span> categorical_cols:
+    le = LabelEncoder()
+    unique_values = df[col].unique().tolist()
+    <span class="keyword">if</span> <span class="string">"Unknown"</span> <span class="keyword">not in</span> unique_values:
+        unique_values.append(<span class="string">"Unknown"</span>)
+    
+    le.fit(unique_values)
+    df[col] = le.transform(df[col])
+    label_encoders[col] = le
+
+joblib.dump(label_encoders, <span class="string">"label_encoders.pkl"</span>)
+
+<span class="comment"># Inisialisasi StandardScaler</span>
+scaler = StandardScaler()
+df[numerical_cols] = scaler.fit_transform(df[numerical_cols].copy())
+
+joblib.dump(scaler, <span class="string">"scaler.pkl"</span>)</code></pre>
+            </div>
+        </div>
+
+        <div class="code-section fade-in-up">
+            <h3>🤖 4. Model Training & Evaluation</h3>
+            <p class="code-desc">Melatih model XGBoost. Evaluasi dilakukan menggunakan fungsi kustom untuk mengukur Accuracy dan ROC AUC.</p>
+            
+            <div class="code-block">
+<pre><code><span class="keyword">from</span> xgboost <span class="keyword">import</span> XGBClassifier
+<span class="keyword">from</span> sklearn.metrics <span class="keyword">import</span> classification_report, accuracy_score, roc_auc_score
+
+<span class="comment"># Inisialisasi dan Training Model XGBoost</span>
+xgb_clf = XGBClassifier(use_label_encoder=<span class="keyword">False</span>, eval_metric=<span class="string">'mlogloss'</span>, random_state=<span class="string">42</span>)
+xgb_clf.fit(X_train, y_train)
+
+<span class="keyword">def</span> <span class="function">evaluate_model</span>(model, X_test, y_test, model_name):
+    y_pred = model.predict(X_test)
+    y_pred_proba = model.predict_proba(X_test)
+    
+    accuracy = accuracy_score(y_test, y_pred)
+    roc_auc = roc_auc_score(y_test, y_pred_proba, multi_class=<span class="string">'ovr'</span>)
+    
+    <span class="function">print</span>(<span class="string">f"\nEvaluasi {model_name}"</span>)
+    <span class="function">print</span>(<span class="string">f"Accuracy: {accuracy:.4f}"</span>)
+    <span class="function">print</span>(<span class="string">f"ROC AUC Score: {roc_auc:.4f}"</span>)
+
+evaluate_model(xgb_clf, X_test, y_test, <span class="string">"XGBoost"</span>)</code></pre>
+            </div>
+            
+            <div class="output-block">
+<pre class="output-text"><code>Evaluasi XGBoost
+<span class="output-highlight">Accuracy: 0.9461</span>
+<span class="output-highlight">ROC AUC Score: 0.9672</span>
+
+              precision    recall  f1-score   support
+           0       0.83      0.95      0.89      8565
+           2       0.99      1.00      0.99     36794
+           5       0.44      0.25      0.31      1446
+
+    accuracy                           0.95     47862</code></pre>
+            </div>
+        </div>
+
+        <div class="code-section fade-in-up">
+            <h3>🧪 5. Testing Inference (Data Simulasi Baru)</h3>
+            <p class="code-desc">Menguji model dengan memuat ulang (load) model, encoder, dan scaler untuk memprediksi probabilitas gagal bayar pada data nasabah baru.</p>
+            
+            <div class="code-block">
+<pre><code><span class="comment"># Skalakan fitur numerik data baru sebelum diprediksi</span>
+dummy_data_1[numerical_cols] = scaler.transform(dummy_data_1[numerical_cols])
+
+<span class="comment"># Prediksi dengan XGBoost</span>
+pred_xgb = xgb_clf.predict(dummy_data_1)
+pred_xgb_label = label_encoders[<span class="string">'loan_status'</span>].inverse_transform(pred_xgb)
+
+<span class="function">print</span>(<span class="string">"\n**Prediksi untuk Nasabah 1:**"</span>)
+<span class="function">print</span>(<span class="string">"  Status Pinjaman:"</span>, pred_xgb_label[<span class="string">0</span>])</code></pre>
+            </div>
+            
+            <div class="output-block">
+<pre class="output-text"><code>**Prediksi untuk Nasabah 1:**
+  Status Pinjaman: <span class="variable">Charged Off</span></code></pre>
+            </div>
+        </div>
+
+    </main>
+
+    <footer>
+        <div class="container">
+            <small>&copy; 2026 Personal Portfolio. Built with Code & Research.</small>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

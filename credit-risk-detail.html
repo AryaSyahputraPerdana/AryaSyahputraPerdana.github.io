@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Riset - Credit Risk Analysis</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        .article-content p { font-size: 1.05rem; color: var(--text-muted); margin-bottom: 20px; line-height: 1.8; text-align: justify; }
+        .article-content h3 { margin-top: 40px; margin-bottom: 15px; color: var(--text-main); font-size: 1.5rem; }
+        .article-content ul { list-style: disc; margin-left: 20px; margin-bottom: 20px; color: var(--text-muted); }
+        .article-content li { margin-bottom: 10px; }
+        
+        /* Gaya tambahan untuk List Tahapan yang lebih detail */
+        .detailed-steps { list-style: none; margin: 0; padding: 0; }
+        .detailed-steps li { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 25px; border-radius: 12px; margin-bottom: 20px; border-left: 4px solid var(--secondary); }
+        .detailed-steps li h4 { color: var(--text-main); font-size: 1.2rem; margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+        .detailed-steps li p { font-size: 0.95rem; margin-bottom: 0; }
+        code { background: rgba(255,255,255,0.1); padding: 2px 6px; border-radius: 4px; font-size: 0.85em; color: #a855f7; }
+
+        /* Gaya tambahan untuk tabel perbandingan model */
+        .metrics-table { width: 100%; border-collapse: collapse; margin-top: 15px; color: var(--text-main); font-size: 0.95rem; }
+        .metrics-table th, .metrics-table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .metrics-table th { background-color: rgba(124, 58, 237, 0.2); color: var(--secondary); font-weight: 600; }
+        .metrics-table tr:hover { background-color: rgba(255,255,255,0.05); }
+    </style>
+</head>
+<body>
+
+    <header class="navbar fade-in reveal">
+        <div class="logo">My<span class="highlight">Story</span>.</div>
+        <nav>
+            <ul>
+                <li><a href="index.html">&larr; Kembali ke Portofolio</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="section-padding bg-darker reveal" style="text-align: center; border-bottom: 1px solid rgba(255,255,255,0.05);">
+        <div class="container fade-in-up">
+            <span class="tag tag-highlight" style="margin: 0 auto 20px; display: inline-block;">Machine Learning Pipeline</span>
+            <h1 style="font-size: 2.5rem; margin-bottom: 20px; max-width: 900px; margin-left: auto; margin-right: auto; line-height: 1.3;">
+                <span class="gradient-text">Credit Risk Analysis & Loan Status Prediction</span>
+            </h1>
+            <p style="color: var(--text-muted); max-width: 700px; margin: 0 auto; font-size: 1.1rem;">
+                Membangun model klasifikasi berbasis Machine Learning end-to-end untuk menganalisis dan memprediksi risiko gagal bayar pada data historis pinjaman.
+            </p>
+        </div>
+    </section>
+
+    <main class="container section-padding reveal">
+        <div class="grid-2" style="align-items: start;">
+            
+            <div class="fade-in-up delay-1 article-content">
+                <h2 class="category-title">Alur Kerja (Pipeline) Proyek</h2>
+                <p>
+                    Proyek ini mendemonstrasikan seluruh siklus hidup pengembangan model Machine Learning, berawal dari eksplorasi raw data berskala besar (lebih dari 466.000 baris data dari periode 2007-2014) hingga membangun sistem <em>inference</em> untuk data baru. Berikut adalah rincian tahapan yang dieksekusi dalam Jupyter Notebook:
+                </p>
+
+                <ul class="detailed-steps">
+                    <li>
+                        <h4>📊 1. Exploratory Data Analysis (EDA)</h4>
+                        <p>Analisis dimulai dengan memeriksa struktur dataset, tipe data, dan distribusi <em>missing values</em>. Visualisasi menggunakan <strong>Seaborn</strong> dan <strong>Matplotlib</strong> dilakukan untuk memahami distribusi kelas target (<code>loan_status</code>), menganalisis fitur numerik krusial seperti <code>loan_amnt</code>, <code>annual_inc</code>, dan <code>dti</code>, serta melihat matriks korelasi (<em>heatmap</em>) antar variabel.</p>
+                    </li>
+                    <li>
+                        <h4>🧹 2. Data Cleaning & Pre-processing</h4>
+                        <p>Kolom yang tidak relevan dieliminasi, serta baris dengan status pinjaman yang ambigu (seperti <em>Current</em>) disaring keluar. Untuk menangani data kosong (NaN), dilakukan <em>imputation</em> secara selektif: mengisi nilai <strong>median</strong> untuk data numerik dan <strong>modus</strong> untuk data kategorikal.</p>
+                    </li>
+                    <li>
+                        <h4>⚙️ 3. Feature Encoding & Scaling</h4>
+                        <p>Algoritma Machine Learning memerlukan input numerik. Kolom kategorikal (seperti <code>term</code>, <code>grade</code>, <code>purpose</code>) ditransformasi menggunakan <code>LabelEncoder</code>. Selanjutnya, fitur numerik dinormalisasi menggunakan <code>StandardScaler</code> untuk menyamakan rentang data. Baik encoder maupun scaler <strong>disimpan menggunakan joblib (.pkl)</strong> untuk menjaga konsistensi pada saat simulasi prediksi.</p>
+                    </li>
+                    <li>
+                        <h4>🤖 4. Model Training & Evaluation</h4>
+                        <p>Dataset dibagi dengan proporsi 80% data latih (Train) dan 20% data uji (Test). Tiga algoritma klasifikasi—<strong>Logistic Regression</strong>, <strong>Random Forest</strong>, dan <strong>XGBoost</strong>—dilatih dan dievaluasi kemampuannya. Evaluasi berfokus pada metrik Accuracy dan <strong>ROC AUC Score</strong> untuk memastikan model dapat membedakan kelas dengan baik, bukan hanya menebak mayoritas data.</p>
+                    </li>
+                    <li>
+                        <h4>🧪 5. Testing Inference (Dummy Data)</h4>
+                        <p>Sebagai bukti konsep (<em>Proof of Concept</em>), model diuji menggunakan beberapa skenario data <em>dummy</em>. Data simulasi ini melewati proses <em>pipeline</em> yang sama (di-transformasi oleh scaler dan encoder yang telah di-load), kemudian diteruskan ke model untuk memprediksi status akhir pinjamannya (misal: <em>Charged Off</em> atau <em>Fully Paid</em>).</p>
+                    </li>
+                </ul>
+
+                <div class="tech-stack" style="margin-top: 30px; margin-bottom: 30px;">
+                    <span class="pill-blue" style="font-size: 0.9rem; padding: 6px 15px;">Pandas & NumPy</span>
+                    <span class="pill-green" style="font-size: 0.9rem; padding: 6px 15px;">Scikit-Learn</span>
+                    <span class="pill-orange" style="font-size: 0.9rem; padding: 6px 15px;">XGBoost</span>
+                    <span class="pill-purple" style="font-size: 0.9rem; padding: 6px 15px;">Seaborn</span>
+                </div>
+            </div>
+
+            <div class="fade-in-up delay-2">
+                <div class="card" style="margin-bottom: 30px; position: sticky; top: 100px;">
+                    <div class="card-body">
+                        <h3 style="color: var(--secondary); margin-bottom: 15px;">Perbandingan Performa Model</h3>
+                        <p style="font-size: 0.95rem; margin-bottom: 15px;">
+                            Berdasarkan evaluasi terhadap data uji (<em>test set</em>), berikut adalah perbandingan kinerja ketiga algoritma yang diimplementasikan:
+                        </p>
+                        
+                        <table class="metrics-table">
+                            <thead>
+                                <tr>
+                                    <th>Algoritma Model</th>
+                                    <th>Akurasi</th>
+                                    <th>ROC AUC</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Logistic Regression</td>
+                                    <td>93.64%</td>
+                                    <td>0.9476</td>
+                                </tr>
+                                <tr>
+                                    <td>Random Forest</td>
+                                    <td>93.50%</td>
+                                    <td>0.9229</td>
+                                </tr>
+                                <tr>
+                                    <td style="color: var(--secondary); font-weight: bold;">XGBoost (Best Model)</td>
+                                    <td style="color: var(--secondary); font-weight: bold;">94.61%</td>
+                                    <td style="color: var(--secondary); font-weight: bold;">0.9672</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                        <div style="margin-top: 25px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
+                            <h3 style="font-size: 1.2rem; color: var(--text-main); margin-bottom: 10px;">💡 Kesimpulan Akhir</h3>
+                            <p style="font-size: 0.95rem; margin-bottom: 15px; color: var(--text-muted); line-height: 1.6;">
+                                Algoritma <strong>XGBoost</strong> memberikan hasil prediksi terbaik dengan ROC AUC tertinggi (0.9672), membuktikan keunggulan metode <em>gradient boosting</em> dalam menangani data tabular kompleks. Pipeline yang dibuat juga terbukti stabil, memungkinkan penyebaran (<em>deployment</em>) model ke dalam bentuk API dengan alur preprocessing data yang konsisten menggunakan file <code>.pkl</code>.
+                            </p>
+                            
+                            <a href="credit-risk-code.html" class="btn-primary" style="display: inline-block; padding: 10px 20px; border-radius: 8px; font-size: 0.9rem; text-align: center;">Lihat Source Code & Output &rarr;</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>Ingin berkolaborasi atau melihat source code proyek ini?</p>
+            <a href="https://wa.me/6281215685675" target="_blank" rel="noopener noreferrer" class="footer-link">Hubungi Saya</a>
+            <br><br>
+            <small>&copy; 2026 Personal Portfolio. Built with Code & Research.</small>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

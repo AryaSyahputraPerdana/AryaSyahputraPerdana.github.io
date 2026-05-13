@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Project: Klasifikasi Tumor Otak MRI - Arya Syahputra</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Tambahan style khusus untuk halaman detail agar rapi */
+        .project-header { text-align: center; padding: 120px 20px 40px; }
+        .project-header h1 { font-size: 2.8rem; margin-bottom: 20px; }
+        .project-content { max-width: 900px; margin: 0 auto; line-height: 1.8; color: #cbd5e1; }
+        .project-content h2 { color: #fff; margin: 40px 0 20px; font-size: 1.8rem; }
+        .project-content p { margin-bottom: 20px; }
+        .project-content ul { margin-left: 20px; margin-bottom: 20px; }
+        .project-content li { margin-bottom: 10px; }
+        .content-image { width: 100%; border-radius: 16px; margin: 30px 0; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+        .metric-box { background: rgba(255, 255, 255, 0.05); padding: 20px; border-radius: 12px; text-align: center; border: 1px solid rgba(255, 255, 255, 0.1); }
+        .metric-value { font-size: 2rem; font-weight: 700; color: #3b82f6; margin-bottom: 5px; }
+    </style>
+</head>
+<body>
+
+    <header class="navbar fade-in reveal">
+        <div class="logo">My<span class="highlight">Story</span>.</div>
+        <nav>
+            <ul>
+                <li><a href="index.html#projects">← Kembali ke Portofolio</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <section class="project-header reveal">
+            <span class="tag tag-highlight" style="display: inline-block; margin-bottom: 15px;">Computer Vision / Medical AI</span>
+            <h1>Klasifikasi <span class="gradient-text">Tumor Otak (MRI)</span></h1>
+            <p style="color: #94a3b8; max-width: 700px; margin: 0 auto 30px; font-size: 1.1rem;">
+                Membangun sistem diagnosa medis otomatis berbasis Deep Learning untuk mendeteksi dan mengklasifikasikan 4 jenis kondisi otak menggunakan citra MRI.
+            </p>
+            <div class="tech-stack" style="justify-content: center;">
+                <span>PyTorch</span>
+                <span>DenseNet-121</span>
+                <span>Transfer Learning</span>
+                <span>Python</span>
+            </div>
+        </section>
+
+        <section class="project-content reveal">
+            <!-- Bisa diganti dengan screenshot UI interaktif atau ilustrasi model Anda -->
+            <img src="/Users/mac/Downloads/Portofolio/sample-testing.png" alt="Brain Tumor MRI Preview" class="content-image" style="max-width: 600px; height: auto; display: block; margin: 30px auto; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+
+            <h2>🧠 Latar Belakang Project</h2>
+            <p>
+                Tumor otak merupakan salah satu kondisi medis yang memerlukan diagnosa cepat dan akurat. Analisis citra MRI (Magnetic Resonance Imaging) secara manual oleh radiolog membutuhkan waktu dan keahlian tingkat tinggi. Project ini bertujuan untuk mengotomatisasi proses tersebut dengan bantuan kecerdasan buatan, guna memberikan opini kedua (*second opinion*) yang cepat dan andal bagi tenaga medis.
+            </p>
+
+            <h2>📂 Dataset & Pre-processing</h2>
+            <p>
+                Project ini menggunakan dataset publik yang terdiri dari citra MRI otak yang seimbang (*balanced*) dan terbagi ke dalam 4 kelas:
+            </p>
+            <ul>
+                <li><strong>Glioma:</strong> Tumor yang bermula dari sel glial di otak atau tulang belakang.</li>
+                <li><strong>Meningioma:</strong> Tumor yang muncul dari meninges (selaput yang mengelilingi otak).</li>
+                <li><strong>Pituitary:</strong> Tumor kelenjar hipofisis.</li>
+                <li><strong>No Tumor:</strong> Otak sehat tanpa indikasi tumor.</li>
+            </ul>
+            <p>
+                Pada fase <em>pre-processing</em>, semua citra di-<em>resize</em> menjadi 224x224 piksel dan dinormalisasi menggunakan nilai <em>mean</em> dan <em>standard deviation</em> dari ImageNet. Augmentasi data seperti <em>Random Horizontal Flip</em> dan <em>Random Rotation</em> (10 derajat) diterapkan untuk meningkatkan ketahanan (*robustness*) model tanpa merusak informasi anatomis.
+            </p>
+
+            <h2>⚙️ Arsitektur & Pelatihan Model</h2>
+            <p>
+                Alih-alih melatih model dari awal, saya mengimplementasikan metode <strong>Transfer Learning</strong> menggunakan arsitektur <strong>DenseNet-121</strong>. 
+            </p>
+            <p>
+                <em>Mengapa DenseNet?</em> Arsitektur ini memiliki karakteristik <em>Dense Connectivity</em> di mana setiap layer menerima input dari semua layer sebelumnya. Ini sangat krusial untuk citra medis seperti MRI, karena model mampu mempertahankan ekstraksi fitur tekstur dan tepi yang sangat halus (fitur tingkat rendah) hingga ke layer klasifikasi akhir.
+            </p>
+            <ul>
+                <li><strong>Framework:</strong> PyTorch</li>
+                <li><strong>Optimizer:</strong> AdamW (sangat baik untuk model dengan parameter besar guna mencegah overfitting).</li>
+                <li><strong>Loss Function:</strong> Cross-Entropy Loss.</li>
+                <li><strong>Classifier:</strong> Layer FC (*Fully Connected*) bawaan dibuang dan diganti dengan layer linear baru dengan 4 node output.</li>
+            </ul>
+
+            <h2>📊 Hasil & Evaluasi</h2>
+            <p>
+                Model dievaluasi menggunakan data *testing* terpisah yang tidak pernah dilihat oleh model sebelumnya. Selain akurasi, performa divalidasi menggunakan <em>Confusion Matrix</em> untuk memastikan tidak ada bias atau kesalahan klasifikasi yang fatal antara kelas tumor yang visualnya mirip.
+            </p>
+            
+            <div class="grid-3" style="margin-top: 30px; margin-bottom: 30px;">
+                <div class="metric-box">
+                    <div class="metric-value">4</div>
+                    <div>Kelas Terdeteksi</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-value">AdamW</div>
+                    <div>Optimizer</div>
+                </div>
+                <div class="metric-box">
+                    <div class="metric-value">PyTorch</div>
+                    <div>Core Framework</div>
+                </div>
+            </div>
+
+            <!-- Anda bisa menaruh gambar Confusion Matrix yang di-generate oleh kode Python sebelumnya di sini -->
+            <img src="confusion-matrix.png" alt="Confusion Matrix" class="content-image" style="max-width: 600px; margin: 0 auto; display: block; background-color: white;">
+
+            <h2>🚀 Pengembangan Lanjutan (*Next Steps*)</h2>
+            <p>
+                Untuk pengembangan ke depannya, project ini akan diintegrasikan dengan metode <strong>Explainable AI (XAI)</strong> seperti Grad-CAM, serupa dengan yang saya terapkan pada riset skripsi saya. Tujuannya agar model tidak hanya memberikan prediksi kelas, tetapi juga memvisualisasikan area spesifik (*heatmap*) pada otak yang menjadi dasar pengambilan keputusan tersebut.
+            </p>
+
+            <div style="text-align: center; margin-top: 60px;">
+                <a href="https://colab.research.google.com/drive/1cOIBYX1uNBfrzgkJ2p6PSA3ioh1y7Yhf?usp=sharing" target="_blank" rel="noopener noreferrer" class="btn-primary" style="padding: 12px 30px; border-radius: 30px; text-decoration: none; display: inline-block;">Lihat Source Code di Google Colab</a>
+            </div>
+        </section>
+    </main>
+
+    <footer style="margin-top: 80px;">
+        <div class="container text-center">
+            <p>Ingin berkolaborasi atau diskusi tentang AI?</p>
+            <a href="https://wa.me/6281215685675" target="_blank" rel="noopener noreferrer" class="footer-link">Hubungi Saya</a>
+            <br><br>
+            <small>&copy; 2026 Personal Portfolio. Built with Code & Research.</small>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
